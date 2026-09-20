@@ -1,9 +1,53 @@
-This project was built in 2024
+# Multi-Character Dialogue Lip-Sync Engine
 
-Engineered an advanced AI pipeline to perform lip-synchronization for multiple characters within a single video, each with a distinct audio track. This project overcomes the single-face limitation of standard lip-sync models by using a multi-stage process that identifies, tracks, isolates, and individually processes each character before a final, seamless composite. The solution enables complex applications like automated multi-person dubbing, dynamic conversational videos, and bringing group photos to life with unique voices.
-Character Identification: The system analyzes the video's first frame using the face_recognition library to detect all individuals. The user is then prompted to assign a name and corresponding audio file to each detected face.
-Continuous Face Tracking with IoU: To handle movement, the pipeline employs an Intersection over Union (IoU) tracking algorithm. It intelligently matches detected faces in each frame to their known identities from the previous frame, ensuring robust tracking through motion and minor obstructions.
-Jitter-Free Mask Smoothing: A temporal smoothing filter is applied to the bounding box coordinates of each tracked face. This crucial step eliminates jitter and produces a stable, continuous mask for each character throughout the video.
-Parallel Lip-Sync Inference: For each character, a dedicated masked video is created showing only their face. The Wav2Lip model is then run in parallel on each of these masked videos with its unique audio track, effectively performing multiple independent lip-sync operations within a single source video.
-Seamless Compositing with Feathered Masks: The individually lip-synced videos are processed to create soft, feathered masks using morphological operations in moviepy and OpenCV. These refined clips are then layered back onto the original silent video, resulting in a flawless final composite where all characters speak their assigned lines in perfect sync.
-Engineered an advanced AI pipeline to perform lip-synchronization for multiple characters within a single video, each with a distinct audio track. This project overcomes the single-face limitation of standard lip-sync models by using a multi-stage process that identifies, tracks, isolates, and individually processes each character before a final, seamless composite. The solution enables complex applications like automated multi-person dubbing, dynamic conversational videos, and bringing group photos to life with unique voices. Character Identification: The system analyzes the video's first frame using the face_recognition library to detect all individuals. The user is then prompted to assign a name and corresponding audio file to each detected face. Continuous Face Tracking with IoU: To handle movement, the pipeline employs an Intersection over Union (IoU) tracking algorithm. It intelligently matches detected faces in each frame to their known identities from the previous frame, ensuring robust tracking through motion and minor obstructions. Jitter-Free Mask Smoothing: A temporal smoothing filter is applied to the bounding box coordinates of each tracked face. This crucial step eliminates jitter and produces a stable, continuous mask for each character throughout the video. Parallel Lip-Sync Inference: For each character, a dedicated masked video is created showing only their face. The Wav2Lip model is then run in parallel on each of these masked videos with its unique audio track, effectively performing multiple independent lip-sync operations within a single source video. Seamless Compositing with Feathered Masks: The individually lip-synced videos are processed to create soft, feathered masks using morphological operations in moviepy and OpenCV. These refined clips are then layered back onto the original silent video, resulting in a flawless final composite where all characters speak their assigned lines in perfect sync.
+A computer-vision pipeline for assigning different audio tracks to multiple faces in one video and compositing the independently lip-synchronised results back into the original scene.
+
+> Built as an experimental applied-AI pipeline in 2024.
+
+## How it works
+
+1. Detect faces in the first frame.
+2. Associate each detected person with a name and audio track.
+3. Track identities frame-to-frame using Intersection over Union (IoU).
+4. Smooth bounding boxes over time to reduce visible jitter.
+5. Create an isolated masked video for each character.
+6. Run Wav2Lip independently for every character.
+7. Composite the processed regions back with feathered masks.
+
+## Technical highlights
+
+- Multi-face processing beyond Wav2Lip's typical single-face workflow
+- Lightweight IoU-based temporal tracking
+- Bounding-box smoothing for more stable masks
+- Per-character inference jobs
+- Feathered OpenCV/MoviePy compositing
+
+## Tech stack
+
+Python · Wav2Lip · OpenCV · MoviePy · face_recognition · NumPy · FFmpeg · Google Colab
+
+## Repository contents
+
+```text
+LipSync_with_Multiple_Characters.ipynb
+README.md
+```
+
+## Running the notebook
+
+1. Open the notebook in Colab.
+2. Enable a GPU runtime.
+3. Provide a source video containing visible faces.
+4. Upload one audio file per character.
+5. Run the stages in order and verify the identity assignments before inference.
+
+## Limitations
+
+- IoU tracking can lose identities during long occlusions or large movements.
+- Source videos with profile faces, motion blur or overlapping subjects may require a stronger tracker.
+- Processing time grows with both video duration and character count.
+- Use only media for which you have the necessary consent and rights.
+
+## Status
+
+Research prototype. The next engineering step is to extract the notebook into tested tracking, inference and compositing modules.
