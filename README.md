@@ -1,3 +1,5 @@
+This project was built in 2024
+
 Engineered an advanced AI pipeline to perform lip-synchronization for multiple characters within a single video, each with a distinct audio track. This project overcomes the single-face limitation of standard lip-sync models by using a multi-stage process that identifies, tracks, isolates, and individually processes each character before a final, seamless composite. The solution enables complex applications like automated multi-person dubbing, dynamic conversational videos, and bringing group photos to life with unique voices.
 Character Identification: The system analyzes the video's first frame using the face_recognition library to detect all individuals. The user is then prompted to assign a name and corresponding audio file to each detected face.
 Continuous Face Tracking with IoU: To handle movement, the pipeline employs an Intersection over Union (IoU) tracking algorithm. It intelligently matches detected faces in each frame to their known identities from the previous frame, ensuring robust tracking through motion and minor obstructions.
